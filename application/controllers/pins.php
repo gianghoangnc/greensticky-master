@@ -238,6 +238,24 @@ class Pins extends CI_Controller {
                 $insert['pin_url'] = $image;
                 //$insert['source_url']      = '';
                 $id = $this->board_model->saveUploadPin($insert);
+                
+                $like = $_POST;
+                $like = array(
+                		'pin_id' => $id,
+                		'source_user_id' => 	$user_id,
+                		'like_user_id' => $user_id
+                );
+                $id_like = $this->board_model->saveLikes($like);
+                $activity = array(
+                		'user_id' => $this->session->userdata('login_user_id'),
+                		'log' => "Liked a pin  ",
+                		'type' => "like",
+                		'action_id' => $like['pin_id']
+                );
+                activityList($activity);
+                $count = getPinLikeCount($like['pin_id']);
+                echo json_encode($count);
+                
                 if ($id) {
                     redirect('board/pins/' . $boardId . '/' . $id);
                 }
@@ -294,6 +312,8 @@ class Pins extends CI_Controller {
             //Modification by vishnu@cubettech.com on 27-09-2013 ends here
 
             $id = $this->board_model->saveUploadPin($insert);
+            
+            
             if ($id) {
                 redirect('board/pins/' . $boardId . '/' . $id);
             }

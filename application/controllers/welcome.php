@@ -29,68 +29,15 @@ class Welcome extends CI_Controller {
      * @since   : 01-03-2012
      * @return
      */
-    function index() { /*
-      $data['title']  = 'Welcome';
-      $count = $this->board_model->getAllPins();
-      $count =  count($count);
-      $this->load->library('pagination');
-      $userID =false;
-      $order =false;
-      $config['base_url'] = site_url().'test/getAllpins';
-      $config['uri_segment']          = $this->uri->segment(3,2);
-      $offset                         = $this->uri->segment(3,0);
-      $data['offset'] = $offset;
-
-      $config['total_rows'] = $count;
-      $config['per_page'] = $limit = 30;
-      $this->pagination->initialize($config);
-      $row = $this->board_model->getAllPinsAjax($offset,$limit);
-      $data['row'] = $row;
-      //if a valid login
-      if(($this->session->userdata('login_user_id')))
-      {
-      $fb_data                = $this->session->userdata('fb_data');
-      $this->load->model('Facebook_model');
-      $data                   = array('fb_data' => $fb_data);//facebook data
-      $data['id']            = $this->session->userdata('login_user_id');//logged user id
-      $data['userDetails']    = $userDetails = userDetails($data['id']);//logged user details from user id
-      $data['row'] = $row;
-      $this->load->view('welcome', $data);
-      }
-      //if invalid entry in db , call logout function by passing a paramter to set the invalid login message
-      else{
-      if($this->session->userdata('noentry_message'))
-      {
-      $data['invalid']     = $this->session->userdata('noentry_message');
-      $this->session->unset_userdata('noentry_message');
-      }
-      $this->load->view('welcome', $data);
-      } */
-        //$count = $this->board_model->getAllPins();
-        //$count =  count($count);
-        //$this->load->library('pagination');
+    function index() { 
         $userID = false;
         $order = false;
-        //$config['base_url'] = site_url().'test/getAllpins';
-        //$config['uri_segment']          = $this->uri->segment(3,2);
-       
-
-        //$offset = $this->uri->segment(3, 0);
+        
         $limit = $this->config->item('pin_load_limit');
         $page = $this->uri->segment(3, 1);
         
         $nextOffset = ($page -1) * $limit;
         $nextPage = $page +1;
-        /* Script works only if limit is 20 */
-//        if ($this->uri->segment(3, 0)) {
-//            $nextOffset = (($offset - $limit) + $offset);
-//        } else {
-//            $nextOffset = 0;
-//        }
-        
-        //$config['total_rows'] = $count;
-        //$config['per_page'] = $limit = 20;
-        //$this->pagination->initialize($config);
         $sql = "SELECT *
                     FROM
                         pins";
@@ -132,8 +79,11 @@ class Welcome extends CI_Controller {
             else
                 $data['row'] = false;
             $data['offset'] = $nextOffset;
+            $result = $this->action_model->get_most_liked($limit, $nextOffset);
+            $data['pins'] = $result;
             $data['page'] = $nextPage;
-            $this->load->view('welcome', $data);
+            $this->load->view('mostliked_view', $data);
+            //$this->load->view('welcome', $data);
         }
         //if invalid entry in db , call logout function by passing a paramter to set the invalid login message
         else {
@@ -142,8 +92,11 @@ class Welcome extends CI_Controller {
                 $this->session->unset_userdata('noentry_message');
             }
             $data['offset'] = $nextOffset;
+            $result = $this->action_model->get_most_liked($limit, $nextOffset);
+            $data['pins'] = $result;
             $data['page'] = $nextPage;
-            $this->load->view('welcome', $data);
+            $this->load->view('mostliked_view', $data);
+            //$this->load->view('welcome', $data);
         }
     }
 

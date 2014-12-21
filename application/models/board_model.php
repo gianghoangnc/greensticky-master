@@ -74,13 +74,12 @@ class Board_model extends CI_Model {
      */
     function getEachBoardPins($id,$limit=false)
     {
-        $sql    = "SELECT 
-                        *
-                    FROM
-                        pins
-                    WHERE
-                        board_id = $id
-                    ORDER BY time DESC";
+        $sql = "SELECT distinct p.* "
+    . "FROM pins p "
+    . "right outer join likes l "
+    . "on p.id = l.pin_id "
+    . "WHERE p.board_id = $id "
+    . "ORDER BY p.pin_position_in_board ";
         if($limit)
             $sql .=" LIMIT 0 ,$limit" ;
         $query  = $this->db->query($sql);

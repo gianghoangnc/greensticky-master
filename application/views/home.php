@@ -215,7 +215,7 @@
                                                                      <?php if($pinValue->type=='video'):?>
                                                                         <div class="video"></div>
                                                                     <?php endif;?>
-                                                                    <img src="<?php echo $pinValue->pin_url;?>" style="width: 195px;height: 130px;"/>
+                                                                    <img src="<?php echo $pinValue->pin_url;?>" style="max-height: 130px;"/>
                                                                     </a>
                                                                 </div>
 
@@ -240,7 +240,7 @@
                                                                                 <?php if($pinValue->type=='video'):?>
                                                                                     <div class="video_small"></div>
                                                                                 <?php endif?>
-                                                                                <img src="<?php echo $pinValue->pin_url;?>" alt="Photo of a pin" width="64" height="74"/>
+                                                                                <img src="<?php echo $pinValue->pin_url;?>" alt="Photo of a pin" style="max-height: 74px; max-width:64px;"/>
                                                                             </span>
                                                                         </li>
                                                                     <?php $k++;

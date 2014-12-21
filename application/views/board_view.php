@@ -283,6 +283,7 @@
 
     <div id="Container">
         <div id="alpha" class="container Mcenter clearfix transitions-enabled">
+		<ul class="pin-box" id="categoryorder">
             <?php foreach ($result as $key => $value): ?>
                 <?php $comments = getPinComments($value->id); ?>
                 <div class="pin_item">
@@ -387,11 +388,51 @@
                     <div class="convo_blk enter_comm" id="<?php echo $value->id; ?>"></div>
                 </div>
             <?php endforeach; ?>
+			</ul>
         </div> <!-- #alpha -->
 
         <nav id="page-nav"><a href="http://products.cogzidel.com/pinterest-clone/con_home/scroll/2"></a></nav>
     </div>
 </div>
+<script type="text/javascript">
+function showSort()
+{
+$("ul#categoryorder").sortable("enable");
+$("ul#categoryorder").sortable({
+	opacity: 0.6,
+	cursor: 'move',
+	scrollSensitivity: 40,
+    start: '#categoryorder',
+	update: function(){$('#message').html('Changes not saved');
+	}
+});
+$('#button').click(function(event){
+	var order = $("ul#categoryorder").sortable("serialize");
+	$('#message').html('Saving changes..');
+	$.post(baseUrl+"board/rearrange",order,function(theResponse){
+			$('#message').html(theResponse);
+			});
+	event.preventDefault();
+});
+ $('#SortableButtons').show('slow');
+ $('#rearrangeButton').hide('slow');
+ $('#button').show('slow');
+
+
+ //$('.sortable').attr('id', 'categoryorder');
+
+
+}
+function saveSort()
+{
+ $("ul#categoryorder").sortable("disable");
+ $('#SortableButtons').hide('slow');
+ $('#rearrangeButton').show('slow');
+ $('#button').hide('slow');
+
+ //$('.sortable').removeAttr("id");
+}
+</script>
 <?php $this->load->view('footer'); ?>
 </body>
 </html>
