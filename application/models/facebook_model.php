@@ -52,7 +52,7 @@ class Facebook_model extends CI_Model {
 						'logoutUrl' => $this->facebook->getLogoutUrl(),
 					);
 
-		$this->session->set_userdata('fb_data', $fb_data);
+//		$this->session->set_userdata('fb_data', $fb_data);
 	}
     /*
      * Function to check whether a user is already registered or not
@@ -61,8 +61,9 @@ class Facebook_model extends CI_Model {
      * @since   : 01-03-2012
      * @return  : boolean
      */
-    function checkLogin($email,$password)
-    {
+    function checkLogin($email,$password,$facebook_id,$login_type)
+    {	
+     	if($login_type == 'normal'){
          $sql   = "SELECT
                         username
                     FROM
@@ -70,11 +71,22 @@ class Facebook_model extends CI_Model {
                     WHERE
                         email = '$email'
                     AND
-                        password = '$password'";
+                        password = '$password'";}
+         if($login_type == 'facebook'){
+         	$sql   = "SELECT
+         	username
+         	FROM
+         	user
+         	WHERE
+         	facebook_id = '$facebook_id'";
+         }
         $query  = $this->db->query($sql);
-        if($query->num_rows()>0)
+        if($query->num_rows()>0 && $login_type == 'normal')
         {
             return true;
+        }
+        if($query->num_rows()>0 && $login_type == 'facebook'){
+        	return true;
         }
     }
     /*
@@ -96,6 +108,9 @@ class Facebook_model extends CI_Model {
         if($query->num_rows()>0)
         {
             return true;
+        }
+        else{
+        	return false;
         }
     }
     /*

@@ -174,7 +174,7 @@
             var password = $('#id_password').val();
 
             $.ajax({
-                data:{'email':email,'password':password},
+                data:{'email':email,'password':password,, 'login_type': 'normal'},
                 type: 'post',
                 url:'<?php echo base_url(); ?>login/validateLogin',
                 dataType:'json',
@@ -276,12 +276,12 @@
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + ', '+ response.email+' !';
-
+        '' + response.name + ', '+ response.email+ ', '+ response.id+' !';
       $.ajax({
-          data:{'email':response.email,'password':response.name},
+          data:{'email':response.email,'uid':response.id,'name':response.name, 'login_type': 'facebook'},
           type: 'post',
-          url:'<?php echo base_url(); ?>login/validateLogin',
+          
+          url:'<?php echo base_url(); ?>invite/register',
           dataType:'json',
           cache: false,
           success:function(result){
@@ -295,5 +295,6 @@
 
       });
       });
+   
   }
 </script>

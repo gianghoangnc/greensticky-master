@@ -135,7 +135,7 @@ class Invite extends CI_Controller {
         /*Facebook entry check  */
 
         /* Step 8 of inviting user. Previous step in login controller*/
-        if((($fb_data['uid']) && ($fb_data['me']) &&  ($fb_data['uid']!=0)&&($fb_data['uid']!='') && (!$mail)))
+        if((($fb_data['uid']) &&  ($fb_data['uid']!=0)&&($fb_data['uid']!='') && (!$mail)))
         {
             /*Collect the details of logged fb id from table*/
             $fbIdCheck                      = $this->facebook_model->getUserByFb($fb_data['uid']);
@@ -143,7 +143,7 @@ class Invite extends CI_Controller {
             
 
             /*if no such id present, we are logged in for the first time, so insert that id to db*/
-            if(empty ($fbIdCheck))
+            if(empty($fbIdCheck))
             {
                 if($this->config->item('need_invite')==1)
                 {
@@ -173,7 +173,7 @@ class Invite extends CI_Controller {
 
 
 
-            }
+            
 
             /*Again collect the details of logged fb id from table*/
             //$fbIdCheck                      = $this->facebook_model->getUserByFb($fb_data['uid']);
@@ -186,7 +186,7 @@ class Invite extends CI_Controller {
 
 
             /*If facebook id and email present in db , then registration is success, redirect to user page after login sessiosn set*/
-            else
+            }else
             {               
                 $this->sitelogin->loginCheck();//set loggin sessions in sitelogin library
                 if((!$this->session->userdata('login_user_id')))
@@ -307,13 +307,27 @@ class Invite extends CI_Controller {
             $insert['connect_by']    = $connect_by     = 'normal';
             $insert['time_created']  = $time_created   = time();
             $insert['time_updated']  = $time_updated   = time();
+            $uid =	 $this->input->post('uid'); 
+            $name = $this->input->post('name');
+            
 
             $this->load->model('facebook_model');
-
+			
+            $fb_data = array(
+            		'me' => $profile,
+            		'uid' => $uid,
+            		'name' => $name,
+            		'loginUrl' => $this->facebook->getLoginUrl(array('scope' => 'email,read_stream')),
+            		'logoutUrl' => $this->facebook->getLogoutUrl(),
+            );
+            
+            $this->session->set_userdata('fb_data', $fb_data);
+            
             /*Check whether the invited email is already exist in db, if yes redirect to entry page display the message for login instead of register*/
             $data['check_entry']        = $emailCheck = $this->facebook_model->checkEntry($email);
             if($emailCheck)
-            {   $this->session->set_userdata('check_entry',true);
+            {   
+            	$this->session->set_userdata('check_entry',true);
                 redirect('/invite/entry');
             }
 
@@ -322,18 +336,18 @@ class Invite extends CI_Controller {
 
               /*If user is registering using facebook*/
               $fb_data                          = $this->session->userdata('fb_data');
-              if((($fb_data['uid']) && ($fb_data['me']) &&  ($fb_data['uid']!=0) && ($fb_data['uid']!='')) )
+              if((($fb_data['uid']) &&  ($fb_data['uid']!=0) && ($fb_data['uid']!='')) )
               {
                   $facebookId                   = $fb_data['uid'];
                   if(($image==''))
                   {
                       $image                    = "https://graph.facebook.com/{$facebookId}/picture";
                   }
-                  $name                         = $fb_data['me']['name'];
+                  $name                         = $fb_data['name'];
                   list($firstname,$lastname)    = explode(' ',"$name");
                   $insert['facebook_id']        = $facebookId;
-                  $insert['first_name']         = $firstname;
-                  $insert['last_name']          = $lastname;
+                  $insert['first_name']         = $name;
+                  $insert['last_name']          = '';
                   $insert['connect_by']         = $connect_by = 'facebook';
                   $insert['image']              = $image;
                   $insert['verification']       = 'done';
@@ -440,13 +454,13 @@ class Invite extends CI_Controller {
               if($connect_by=='facebook')
               {   $this->sitelogin->loginCheck();//set login sessions
                   $this->_createDefaultBoard($register);//create a default board for the user
-                  $this->_emailAlert($insert);//send an email to the registered user.
+                  //$this->_emailAlert($insert);//send an email to the registered user.
                   redirect();//redirect to user page
 
               }
               else{
                   $this->_createDefaultBoard($register);//create a default board for the user
-                  $this->_emailAlert($insert,$this->input->post('pass1'));//send an email to the registered user.
+                  //$this->_emailAlert($insert,$this->input->post('pass1'));//send an email to the registered user.
                   $this->load->view('verification_view',$insert);
               }
 

@@ -159,8 +159,8 @@ class Login extends CI_Controller {
         else{
             $idArray[0] = $id;
         }
-        $return = $this->login_model->insertInvitedId($idArray);
         echo json_encode($return);
+        $return = $this->login_model->insertInvitedId($idArray);
     }
     
     /**
@@ -174,16 +174,18 @@ class Login extends CI_Controller {
     
     function validateLogin(){
 
-         $this->load->model('facebook_model');
-         $email     = $this->input->post('email');
-         $password  = md5($this->input->post('password'));
-         $login     = $this->facebook_model->checkLogin($email,$password);
-         if($login){
-             echo  1; 
-         } else{
-             
-             echo 0; 
-         }
+//          $this->load->model('facebook_model');
+//          $email     = $this->input->post('email');
+//          $password  = md5($this->input->post('password'));
+//          $login_type = $this->input->post('login_type');
+//          $facebook_id =  $this->input->post('facebook_id');
+//          $login     = $this->facebook_model->checkLogin($email,$password, $facebook_id, $login_type);
+// 	     if(!$login && $login_type =='facebook'){
+// 	     	$fb_data = array('uid' => $facebook_id,
+// 	     					'email' =>$email
+// 	     	);
+// 	     	 $this->session->set_userdata('fb_data',$fb_data);
+// 	     }
     }
     
     

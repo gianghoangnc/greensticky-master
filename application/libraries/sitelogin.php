@@ -88,7 +88,7 @@ class sitelogin
         //Fb login check 
         $fb_data                = $this->CI->session->userdata('fb_data');
         $noentryMessage         = "Invalid login";
-        if((($fb_data['uid']) && ($fb_data['me']) &&  ($fb_data['uid']!=0)&&($fb_data['uid']!='')))
+        if((($fb_data['uid']) &&  ($fb_data['uid']!=0)&&($fb_data['uid']!='')))
         {
              $referenceId       = $fb_data['uid'];
              $reference         = 'facebook_id';
