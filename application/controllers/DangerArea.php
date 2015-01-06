@@ -11,7 +11,7 @@
  * @author Vishal Vijayan
  * @copyright Copyright (c) 2007-2010 Cubet Technologies. (http://cubettechnologies.com)
  */
-class Bootstrap extends CI_Controller {
+class DangerArea extends CI_Controller {
 
     function __construct() {
         parent::__construct();
@@ -30,7 +30,7 @@ class Bootstrap extends CI_Controller {
      * @return
      */
     function index() { 
-        $this->load->view('bootstrap');
+        $this->load->view('dangerArea');
     }
 
     /*

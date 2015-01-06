@@ -211,7 +211,7 @@
             <div id="home_info"><label><h2 style="font-size: 25px;">Cubetboard is an online pinboard. Organize and share things you love.</h2></label></div>
         <?php endif; ?>
     </div>
-    <div id="Container" style="margin-top:105px;">
+    <div id="Container" style="margin-top:400px;">
         <div class="container Mcenter clearfix transitions-enabled masonry" id="alpha" style="height: 6247px; width: 1392px;">
 
             <?php $boardPin = $pins; ?>

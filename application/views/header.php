@@ -82,11 +82,17 @@
     <!-- pin url -->
    <!-- <script type="text/javascript" src="<?php echo base_url(); ?>application/scripts/jquery.livequery.js"></script> -->
     <script type="text/javascript" src="<?php echo base_url(); ?>application/scripts/pin_url.js"></script>
-
+	
+	<script type="text/javascript" src="http://azadcreative.com/wp-content/themes/Instinct/javascript/jquery.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<script src="<?php echo base_url(); ?>application/scripts/showMarkers.js" type="text/javascript"></script>
+<link href="<?php echo base_url(); ?>application/assets/css/History.css" rel="stylesheet" type="text/css" />
+	
 </head>
 
         
-<body>
+<body onload="initialize()">
     <!-- TOP NAVIGATION-->
     <!--TOP NAVIGATION ENDS HERE -->
     <div class="outer">
@@ -136,6 +142,9 @@
                                 <li>
                                     <a href="<?php echo site_url('welcome/mostRepinned')?>">Most Repined</a>
                                 </li>
+                                <li>
+                                	<a href="<?php echo site_url('DangerArea/index')?>">Danger Area</a>
+                                </li>
                              <?php endif;?>
 
                             <!-- Menu if  login -->
@@ -159,7 +168,7 @@
                                     <a href="<?php echo site_url('pins/videos')?>">Videos</a>
                                 </li>
                                 <li>
-                                	<a href="<?php echo site_url('bootstrap/index')?>">Bootstrap</a>
+                                	<a href="<?php echo site_url('DangerArea/index')?>">Danger Area</a>
                                 </li>
                             <li style="width: 60px;">
                                 <a class="nav-add" href="#">Add</a>
@@ -204,6 +213,12 @@
                 </div>
             </div>
         </div><!-- closing container -->
+        
+        <div class="MapInfo">
+        <div class="map" id="map"><!-- Map div -->
+        </div><!--end Map div -->
+  </div><!--end Map info div-->
+        
     </div><!-- closing Header -->
 
     <!--TOP NAVIGATION ENDS HERE -->
